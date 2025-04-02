@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-color: #fff5f5;
+            --accent-color: #2ecc71;
+            --text-color: #555;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .card {
+            width: 90%;
+            max-width: 350px;
+            background: var(--card-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-color);
+            opacity: 0;
+            animation: confetti-fall 5s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+            z-index: 2;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .art-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        canvas {
+            max-width: 100%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            font-style: italic;
+            color: var(--text-color);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="thankYouCard" class="card">
+        <div class="confetti" id="confetti"></div>
+        <h1>Thank You!</h1>
+        <p>Your forgiveness means the world to me. Let's make more happy memories together!</p>
+        <button id="showArtBtn" class="btn">See Our Art</button>
+    </div>
+
+    <div id="artContainer" class="art-container hidden">
+        <h2>Picture From the memories</h2>
+        <p class="loading" id="loadingText">Creating your special artwork...</p>
+        <canvas id="lineCanvas" class="hidden"></canvas>
+        <button id="backBtn" class="btn">Back to Message</button>
+        <a href="index.html" id="backBtn" class="btn" >Start over</a>
+    </div>
+
+    <script>
+        // Create confetti
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            const colors = ['#2ecc71', '#27ae60', '#1abc9c', '#16a085'];
+            
+            for (let i = 0; i < 100; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = Math.random() * -100 + 'px';
+                piece.style.width = (Math.random() * 8 + 4) + 'px';
+                piece.style.height = (Math.random() * 8 + 4) + 'px';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                container.appendChild(piece);
+            }
+        }
+        
+        // DOM elements
+        const thankYouCard = document.getElementById('thankYouCard');
+        const artContainer = document.getElementById('artContainer');
+        const showArtBtn = document.getElementById('showArtBtn');
+        const backBtn = document.getElementById('backBtn');
+        const loadingText = document.getElementById('loadingText');
+        const lineCanvas = document.getElementById('lineCanvas');
+        
+        // Event listeners
+        showArtBtn.addEventListener('click', function() {
+            thankYouCard.classList.add('hidden');
+            artContainer.classList.remove('hidden');
+            createLineArt();
+        });
+        
+        backBtn.addEventListener('click', function() {
+            artContainer.classList.add('hidden');
+            thankYouCard.classList.remove('hidden');
+        });
+        
+        // Line art creation
+        function createLineArt() {
+            const imageUrl = 'sam.jpeg';
+            const img = new Image();
+            
+            img.onload = function() {
+                // Set canvas sizes (limit to 800px width while maintaining aspect ratio)
+                const maxWidth = Math.min(800, window.innerWidth - 40);
+                const scale = Math.min(1, maxWidth / img.width);
+                const canvasWidth = img.width * scale;
+                const canvasHeight = img.height * scale;
+                
+                lineCanvas.width = canvasWidth;
+                lineCanvas.height = canvasHeight;
+                
+                // Process for line art with maximum accuracy
+                createPreciseLineArt(img, canvasWidth, canvasHeight);
+                
+                // Hide loading text and show canvas
+                loadingText.classList.add('hidden');
+                lineCanvas.classList.remove('hidden');
+            };
+            
+            img.onerror = function() {
+                loadingText.textContent = "Couldn't load the image. Please check the file name.";
+            };
+            
+            img.src = imageUrl;
+        }
+        
+        function createPreciseLineArt(sourceImg, width, height) {
+            const ctx = lineCanvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Create a temporary canvas at original resolution for pixel data
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = sourceImg.width;
+            tempCanvas.height = sourceImg.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(sourceImg, 0, 0);
+            
+            const imageData = tempCtx.getImageData(0, 0, sourceImg.width, sourceImg.height);
+            const data = imageData.data;
+            
+            const scaleX = width / sourceImg.width;
+            const scaleY = height / sourceImg.height;
+            
+            // Use every pixel for maximum accuracy (1:1 mapping)
+            for (let x = 0; x < sourceImg.width; x++) {
+                for (let y = 0; y < sourceImg.height; y++) {
+                    const index = (y * sourceImg.width + x) * 4;
+                    const r = data[index];
+                    const g = data[index + 1];
+                    const b = data[index + 2];
+                    
+                    // Calculate brightness (0-1)
+                    const brightness = (0.34 * r + 0.5 * g + 0.16 * b) / 255;
+                    
+                    // Line thickness based on inverted brightness (darker = thicker)
+                    const lineThickness = (1 - brightness) * 1.5 * Math.max(scaleX, scaleY);
+                    
+                    if (lineThickness > 0) {
+                        ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+                        ctx.lineWidth = lineThickness;
+                        
+                        // Draw vertical line segments
+                        ctx.beginPath();
+                        ctx.moveTo(x * scaleX, y * scaleY);
+                        ctx.lineTo(x * scaleX, (y + 1) * scaleY);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        // Initialize
+        window.onload = createConfetti;
+    </script>
+</body>
+</html>

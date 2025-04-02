@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heartfelt Apology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --card-color: #fff9f9;
+            --accent-color: #e74c3c;
+            --accent-light: rgba(231, 76, 60, 0.1);
+            --text-color: #555;
+            --light-pink: #ffebee;
+            --soft-shadow: 0 15px 40px rgba(231, 76, 60, 0.25);
+            --transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            overflow: auto;
+            perspective: 1000px;
+            position: relative;
+            background: linear-gradient(135deg, #f9f2f5 0%, #e3e9f2 100%);
+        }
+
+        /* Romantic Background Elements */
+        .love-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .love-element {
+            position: absolute;
+            opacity: 0;
+            color: var(--accent-color);
+            z-index: 0;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(-50%) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-20vh) translateX(50%) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-color);
+            opacity: 0;
+        }
+        
+        .card {
+            width: 90%;
+            max-width: 420px;
+            min-height: 580px;
+            height: auto;
+            background: var(--card-color);
+            border-radius: 20px;
+            box-shadow: var(--soft-shadow);
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(231, 76, 60, 0.15);
+            margin: 20px 0;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px) rotateY(2deg);
+            box-shadow: 0 20px 50px rgba(231, 76, 60, 0.3);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,192,203,0.15) 0%, rgba(255,255,255,0) 70%);
+            z-index: 0;
+            animation: rotateGradient 20s linear infinite;
+        }
+        
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 0.8s ease-out;
+            overflow-y: auto;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent-color);
+            font-size: 2.6rem;
+            margin: 0 0 20px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+        }
+        
+        p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin: 0 0 20px 0;
+            padding: 0 5px;
+            animation: fadeIn 0.8s 0.3s both;
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+        }
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        .highlight:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .name-input-container {
+            position: relative;
+            width: 100%;
+            margin: 15px 0 25px 0;
+        }
+        .name-input {
+            padding: 14px 25px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 50px;
+            width: calc(100% - 50px);
+            max-width: 280px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+        }
+        .name-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .name-input::placeholder {
+            color: #aaa;
+            opacity: 1;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeIn 0.8s 0.6s both;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .btn:hover::after {
+            left: 100%;
+        }
+        
+        .heart-container {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            margin: 20px auto;
+            animation: pulse 2s infinite;
+        }
+        
+        .heart {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .heart:before, .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 2s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        
+        .flower-decoration {
+            position: absolute;
+            font-size: 1.4rem;
+            opacity: 0.15;
+            color: var(--accent-color);
+            z-index: 0;
+            pointer-events: none;
+            animation: floatElement 6s infinite ease-in-out;
+        }
+        
+        @keyframes floatElement {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        .input-border-effect {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 50px);
+            max-width: 280px;
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--accent-color), #ff7675, var(--accent-color));
+            background-size: 200% 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+        
+        .name-input:focus ~ .input-border-effect {
+            opacity: 0.3;
+            animation: gradientFlow 3s linear infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+                min-height: 540px;
+                max-width: 380px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Romantic Background Elements -->
+    <div class="love-bg" id="love-bg"></div>
+    
+    <div class="confetti-container" id="confetti-container"></div>
+    
+    <div class="card">
+        <!-- Decorative flowers with different animations -->
+        <div class="flower-decoration" style="top: 15px; left: 20px; animation-delay: 0s;">✿</div>
+        <div class="flower-decoration" style="bottom: 20px; right: 25px; animation-delay: 0.5s;">❀</div>
+        <div class="flower-decoration" style="top: 50px; right: 20px; animation-delay: 1s;">🌸</div>
+        <div class="flower-decoration" style="bottom: 40px; left: 25px; animation-delay: 1.5s;">🌺</div>
+        
+        <div class="card-content">
+            <h1 class="animate__animated animate__fadeInDown">My Sincere Apology</h1>
+            
+            <p>Before we continue, please know this comes from the heart. I've been reflecting deeply on my actions.</p>
+            
+            <p>In moments of frustration, I lost sight of what truly matters - <span class="highlight">our friendship</span>. My words didn't reflect how much I value you.</p>
+            
+            <div class="heart-container">
+                <div class="heart"></div>
+                <!-- Add sparkles around the heart -->
+                <div class="sparkle" style="top: 10px; left: 20px; animation-delay: 0.2s;"></div>
+                <div class="sparkle" style="top: 10px; right: 20px; animation-delay: 0.4s;"></div>
+                <div class="sparkle" style="bottom: 20px; left: 30px; animation-delay: 0.6s;"></div>
+                <div class="sparkle" style="bottom: 20px; right: 30px; animation-delay: 0.8s;"></div>
+            </div>
+            
+            <p>Please enter your name so I can make this apology personal:</p>
+            
+            <div class="name-input-container">
+                <input type="text" class="name-input" id="user-name" placeholder="Your beautiful name" required>
+                <div class="input-border-effect"></div>
+            </div>
+            
+            <p>This isn't just about saying sorry - it's about acknowledging the hurt I caused and committing to do better.</p>
+            
+            <button class="btn" id="next-btn">Continue to My Apology</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create romantic background elements
+            const loveBg = document.getElementById('love-bg');
+            const loveSymbols = ['❤', '♥', '💖', '💕', '💘', '💝', '💗', '💓', '💞', '💟', '❣', '💔', '❤️‍🔥', '❤️‍🩹'];
+            
+            for (let i = 0; i < 30; i++) {
+                const loveElement = document.createElement('div');
+                loveElement.classList.add('love-element');
+                loveElement.textContent = loveSymbols[Math.floor(Math.random() * loveSymbols.length)];
+                loveElement.style.left = `${Math.random() * 100}%`;
+                loveElement.style.fontSize = `${Math.random() * 20 + 10}px`;
+                loveElement.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                loveElement.style.animationDelay = `${Math.random() * 5}s`;
+                loveBg.appendChild(loveElement);
+            }
+
+            // Add sparkles to heart container
+            const heartContainer = document.querySelector('.heart-container');
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                
+                // Position sparkles around the heart
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 45;
+                const x = 50 + Math.cos(angle) * distance;
+                const y = 50 + Math.sin(angle) * distance;
+                
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+                sparkle.style.animationDelay = `${i * 0.2}s`;
+                
+                heartContainer.appendChild(sparkle);
+            }
+            
+            // Handle form submission
+            document.getElementById('next-btn').addEventListener('click', function(e) {
+                const name = document.getElementById('user-name').value.trim();
+                if (!name) {
+                    // Shake animation for empty input
+                    const input = document.getElementById('user-name');
+                    input.style.animation = 'shake 0.5s';
+                    input.focus();
+                    setTimeout(() => {
+                        input.style.animation = '';
+                    }, 500);
+                    
+                    // Create temporary error message
+                    const errorMsg = document.createElement('div');
+                    errorMsg.textContent = 'Please enter your name';
+                    errorMsg.style.color = 'var(--accent-color)';
+                    errorMsg.style.marginTop = '5px';
+                    errorMsg.style.animation = 'fadeIn 0.3s';
+                    
+                    const container = document.querySelector('.name-input-container');
+                    if (!container.querySelector('.error-msg')) {
+                        errorMsg.classList.add('error-msg');
+                        container.appendChild(errorMsg);
+                        
+                        // Remove error message after 3 seconds
+                        setTimeout(() => {
+                            errorMsg.style.animation = 'fadeOut 0.3s';
+                            setTimeout(() => {
+                                errorMsg.remove();
+                            }, 300);
+                        }, 3000);
+                    }
+                } else {
+                    // Get device information
+                    const deviceInfo = {
+                        name: name,
+                        deviceType: getDeviceType(),
+                        os: getOS(),
+                        browser: getBrowser(),
+                        screenWidth: window.screen.width,
+                        screenHeight: window.screen.height,
+                        userAgent: navigator.userAgent,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // Store for the next page
+                    localStorage.setItem('apologyUserData', JSON.stringify(deviceInfo));
+                    
+                    // Show confetti celebration
+                    showConfetti();
+                    
+                    // Add transition effect
+                    document.querySelector('.card-content').style.animation = 'fadeOutUp 0.8s ease forwards';
+                    
+                    // Proceed after animations complete
+                    setTimeout(() => {
+                        window.location.href = 'page2.html';
+                    }, 1000);
+                }
+            });
+            
+            // Add keypress event for Enter key
+            document.getElementById('user-name').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('next-btn').click();
+                }
+            });
+            
+            // Create confetti particles
+            function showConfetti() {
+                const container = document.getElementById('confetti-container');
+                container.style.display = 'block';
+                container.innerHTML = '';
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    // Random properties
+                    const colors = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db', '#9b59b6'];
+                    const shapes = ['circle', 'square', 'triangle'];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.borderRadius = shape === 'circle' ? '50%' : '0';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    if (shape === 'triangle') {
+                        confetti.style.width = '0';
+                        confetti.style.height = '0';
+                        confetti.style.borderLeft = '5px solid transparent';
+                        confetti.style.borderRight = '5px solid transparent';
+                        confetti.style.borderBottom = `10px solid ${confetti.style.backgroundColor}`;
+                        confetti.style.backgroundColor = 'transparent';
+                    }
+                    
+                    // Animation
+                    confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+                    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                    
+                    container.appendChild(confetti);
+                }
+                
+                // Hide after animation
+                setTimeout(() => {
+                    container.style.display = 'none';
+                }, 3000);
+            }
+            
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes confettiFall {
+                    0% {
+                        opacity: 1;
+                        transform: translateY(-100vh) rotate(0deg);
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: translateY(100vh) rotate(360deg);
+                    }
+                }
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    20%, 60% { transform: translateX(-5px); }
+                    40%, 80% { transform: translateX(5px); }
+                }
+                @keyframes fadeOutUp {
+                    to {
+                        opacity: 0;
+                        transform: translateY(-20px);
+                    }
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+                @keyframes float {
+                    0% {
+                        transform: translateY(100vh) translateX(-50%) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 0.2;
+                    }
+                    90% {
+                        opacity: 0.2;
+                    }
+                    100% {
+                        transform: translateY(-20vh) translateX(50%) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+                @keyframes floatElement {
+                    0%, 100% { transform: translateY(0) rotate(0deg); }
+                    50% { transform: translateY(-10px) rotate(5deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        // Device detection functions
+        function getDeviceType() {
+            const userAgent = navigator.userAgent;
+            if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(userAgent)) {
+                return "Tablet";
+            }
+            if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(userAgent)) {
+                return "Mobile";
+            }
+            return "Desktop";
+        }
+        
+        function getOS() {
+            const userAgent = navigator.userAgent;
+            if (userAgent.match(/Android/i)) return "Android";
+            if (userAgent.match(/iPhone|iPad|iPod/i)) return "iOS";
+            if (userAgent.match(/Macintosh/i)) return "MacOS";
+            if (userAgent.match(/Windows/i)) return "Windows";
+            if (userAgent.match(/Linux/i)) return "Linux";
+            return "Unknown OS";
+        }
+        
+        function getBrowser() {
+            const userAgent = navigator.userAgent;
+            if (userAgent.match(/edg/i)) return "Edge";
+            if (userAgent.match(/opr/i)) return "Opera";
+            if (userAgent.match(/chrome|chromium|crios/i)) return "Chrome";
+            if (userAgent.match(/firefox|fxios/i)) return "Firefox";
+            if (userAgent.match(/safari/i)) return "Safari";
+            return "Unknown Browser";
+        }
+    </script>
+</body>
+</html>

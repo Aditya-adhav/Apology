@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apology Card - Cover</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --card-color: #fff5f5;
+            --accent-color: #e74c3c;
+            --text-color: #555;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart-particle {
+            position: absolute;
+            opacity: 0;
+            color: var(--accent-color);
+            animation: float-up 6s linear infinite;
+        }
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        .card {
+            width: 90%;
+            max-width: 380px;
+            height: 520px;
+            background: var(--card-color);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            view-transition-name: card;
+            transition: transform 0.5s ease;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(231, 76, 60, 0.1) 0%, transparent 70%);
+            animation: rotate-gradient 20s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes rotate-gradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        @keyframes slideOut {
+            to { transform: translateX(-100%) rotate(-5deg); opacity: 0; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%) rotate(5deg); opacity: 0; }
+            to { transform: translateX(0) rotate(0); opacity: 1; }
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent-color);
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px var(--shadow-color);
+            view-transition-name: heading;
+            line-height: 1.2;
+        }
+        
+        .heart-container {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            margin: 25px auto;
+            view-transition-name: heart;
+        }
+        
+        .heart {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        .heart:before, .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 2s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+        
+        p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin: 20px 0;
+            opacity: 0.9;
+            animation: fadeIn 0.8s 0.3s both;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            overflow: hidden;
+            view-transition-name: button;
+            animation: fadeIn 0.8s 0.6s both;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .envelope {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 30px;
+            background: #f8d7da;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            z-index: 2;
+        }
+        
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 15px solid #f8d7da;
+        }
+        
+        /* View Transition styles */
+        @supports (view-transition-name: none) {
+            ::view-transition-old(root) {
+                animation: slideOut 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            
+            ::view-transition-new(root) {
+                animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            
+            ::view-transition-old(card),
+            ::view-transition-new(card) {
+                animation: none;
+                mix-blend-mode: normal;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                height: 480px;
+                padding: 25px;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts-container"></div>
+    
+    <div class="card">
+        <div class="envelope"></div>
+        <div class="card-content">
+            <h1>To My Dear Friend Samiraa...</h1>
+            <div class="heart-container">
+                <div class="heart"></div>
+            </div>
+            <p>Please open this card...</p>
+            <a href="page1.html" class="btn" id="next-btn">Open Card</a>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartCount = 15;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-particle');
+                heart.innerHTML = '❤';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heart.style.fontSize = `${Math.random() * 10 + 10}px`;
+                container.appendChild(heart);
+            }
+        }
+        
+        // Add sparkles to heart
+        function addSparkles() {
+            const heartContainer = document.querySelector('.heart-container');
+            const sparkleCount = 8;
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                
+                // Position sparkles around the heart
+                const angle = (i / sparkleCount) * Math.PI * 2;
+                const distance = 50;
+                const x = 50 + Math.cos(angle) * distance;
+                const y = 50 + Math.sin(angle) * distance;
+                
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+                sparkle.style.animationDelay = `${i * 0.2}s`;
+                
+                heartContainer.appendChild(sparkle);
+            }
+        }
+        
+        // Fallback animation for browsers without View Transitions API
+        function navigateWithFallback(e) {
+            if (!document.startViewTransition) {
+                e.preventDefault();
+                document.querySelector('.card-content').style.animation = 'slideOut 0.5s ease-in forwards';
+                setTimeout(() => {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+            addSparkles();
+            
+            const btn = document.getElementById('next-btn');
+            btn.addEventListener('click', navigateWithFallback);
+            
+            // Add subtle hover effect to card
+            const card = document.querySelector('.card');
+            card.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateY(0) rotateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
